@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using UserManagementApp.Utils;
 
 namespace UserManagementApp.Views
 {
@@ -44,17 +34,18 @@ namespace UserManagementApp.Views
 
         private bool ValidateUser(string username, string password)
         {
+            string hashedPassword = PasswordHelper.HashPassword(password);
+
             if (File.Exists("users.txt"))
             {
                 foreach (var line in File.ReadAllLines("users.txt"))
                 {
                     var parts = line.Split('|');
-                    if (parts[0] == username && parts[1] == password)
+                    if (parts[2] == username && parts[3] == hashedPassword) // parts[2] = Username, parts[3] = gehashtes Passwort
                         return true;
                 }
             }
             return false;
         }
-
     }
 }

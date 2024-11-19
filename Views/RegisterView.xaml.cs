@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using UserManagementApp.Utils;
 
 namespace UserManagementApp.Views
 {
@@ -43,8 +33,11 @@ namespace UserManagementApp.Views
                 return;
             }
 
+            // Das Passwort wird hier gehasht
+            string hashedPassword = PasswordHelper.HashPassword(password);
+
             // Speichern der Benutzerdaten
-            SaveUser(firstName, lastName, username, password, email, phone, address, birthDate);
+            SaveUser(firstName, lastName, username, hashedPassword, email, phone, address, birthDate);
             MessageBox.Show("Registrierung erfolgreich!");
 
             var startWindow = new StartWindow();
@@ -52,9 +45,9 @@ namespace UserManagementApp.Views
             this.Close();
         }
 
-        private void SaveUser(string firstName, string lastName, string username, string password, string email, string phone, string address, string birthDate)
+        private void SaveUser(string firstName, string lastName, string username, string hashedPassword, string email, string phone, string address, string birthDate)
         {
-            string userData = $"{firstName}|{lastName}|{username}|{password}|{email}|{phone}|{address}|{birthDate}";
+            string userData = $"{firstName}|{lastName}|{username}|{hashedPassword}|{email}|{phone}|{address}|{birthDate}";
             File.AppendAllLines("users.txt", new[] { userData });
         }
     }
