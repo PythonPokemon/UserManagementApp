@@ -27,10 +27,15 @@ namespace UserManagementApp.Views
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
+            string firstName = FirstNameTextBox.Text;
+            string lastName = LastNameTextBox.Text;
             string username = UsernameTextBox.Text;
             string password = PasswordBox.Password;
             string confirmPassword = ConfirmPasswordBox.Password;
             string email = EmailTextBox.Text;
+            string phone = PhoneTextBox.Text;
+            string address = AddressTextBox.Text;
+            string birthDate = BirthDatePicker.SelectedDate?.ToString("yyyy-MM-dd");
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) || password != confirmPassword)
             {
@@ -38,7 +43,8 @@ namespace UserManagementApp.Views
                 return;
             }
 
-            SaveUser(username, password, email);
+            // Speichern der Benutzerdaten
+            SaveUser(firstName, lastName, username, password, email, phone, address, birthDate);
             MessageBox.Show("Registrierung erfolgreich!");
 
             var startWindow = new StartWindow();
@@ -46,9 +52,9 @@ namespace UserManagementApp.Views
             this.Close();
         }
 
-        private void SaveUser(string username, string password, string email)
+        private void SaveUser(string firstName, string lastName, string username, string password, string email, string phone, string address, string birthDate)
         {
-            string userData = $"{username}|{password}|{email}";
+            string userData = $"{firstName}|{lastName}|{username}|{password}|{email}|{phone}|{address}|{birthDate}";
             File.AppendAllLines("users.txt", new[] { userData });
         }
     }
